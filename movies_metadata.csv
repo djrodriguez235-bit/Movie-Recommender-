@@ -1,36 +1,41 @@
 import pandas as pd
 
-# Creating a sample dataset with columns required by your app.py
-data = {
-    'id': [862, 19995, 27205, 157336, 155, 680, 13, 11, 24428, 120],
-    'title': [
-        'Toy Story', 'Avatar', 'Inception', 'Interstellar', 
-        'The Dark Knight', 'Pulp Fiction', 'Forrest Gump', 
-        'Star Wars', 'The Avengers', 'The Lord of the Rings'
-    ],
-    'genres': [
-        'Animation Comedy Family', 'Action Adventure Fantasy', 
-        'Action Science Fiction', 'Adventure Drama Sci-Fi', 
-        'Drama Action Crime', 'Thriller Crime', 'Comedy Drama Romance', 
-        'Adventure Action Science Fiction', 'Action Adventure Sci-Fi', 
-        'Adventure Fantasy Action'
-    ],
-    'overview': [
-        'Led by Woody, Andys toys live happily in his room until Buzz Lightyear arrives.',
-        'A paraplegic Marine dispatched to the moon Pandora on a unique mission.',
-        'A thief who steals corporate secrets through the use of dream-sharing technology.',
-        'A team of explorers travel through a wormhole in space to ensure humanitys survival.',
-        'Batman raises the stakes in his war on crime with the help of Lt. Jim Gordon.',
-        'A burger-loving hitman, his philosophical partner, and a boxing prize-fighter.',
-        'A man with a low IQ has accomplished great things in his life.',
-        'Princess Leia is captured by the evil Imperial forces.',
-        'Earths mightiest heroes must come together to stop Loki.',
-        'A meek Hobbit and eight companions set out on a journey to destroy the One Ring.'
-    ]
-}
+# This data matches the 'Content-Based Filtering' requirements of your project
+data = [
+    {
+        "id": 862, 
+        "title": "Toy Story", 
+        "genres": "Animation Comedy Family", 
+        "overview": "A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room."
+    },
+    {
+        "id": 19995, 
+        "title": "Avatar", 
+        "genres": "Action Adventure Fantasy Sci-Fi", 
+        "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following his orders and protecting the world he feels is his home."
+    },
+    {
+        "id": 27205, 
+        "title": "Inception", 
+        "genres": "Action Science Fiction Adventure", 
+        "overview": "Cobb, a skilled thief who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO."
+    },
+    {
+        "id": 157336, 
+        "title": "Interstellar", 
+        "genres": "Adventure Drama Science Fiction", 
+        "overview": "Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage."
+    },
+    {
+        "id": 155, 
+        "title": "The Dark Knight", 
+        "genres": "Drama Action Crime Thriller", 
+        "overview": "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets."
+    }
+]
 
 df = pd.DataFrame(data)
 
-# Save as the exact filename your app.py expects
+# Save the file. We use index=False to prevent extra columns that cause ParserErrors.
 df.to_csv('movies_metadata.csv', index=False)
-print("✅ movies_metadata.csv created successfully!")
+print("✅ movies_metadata.csv has been created successfully!")
