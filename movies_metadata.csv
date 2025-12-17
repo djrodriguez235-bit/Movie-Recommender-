@@ -1,41 +1,6 @@
-import pandas as pd
-
-# This data matches the 'Content-Based Filtering' requirements of your project
-data = [
-    {
-        "id": 862, 
-        "title": "Toy Story", 
-        "genres": "Animation Comedy Family", 
-        "overview": "A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room."
-    },
-    {
-        "id": 19995, 
-        "title": "Avatar", 
-        "genres": "Action Adventure Fantasy Sci-Fi", 
-        "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following his orders and protecting the world he feels is his home."
-    },
-    {
-        "id": 27205, 
-        "title": "Inception", 
-        "genres": "Action Science Fiction Adventure", 
-        "overview": "Cobb, a skilled thief who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO."
-    },
-    {
-        "id": 157336, 
-        "title": "Interstellar", 
-        "genres": "Adventure Drama Science Fiction", 
-        "overview": "Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage."
-    },
-    {
-        "id": 155, 
-        "title": "The Dark Knight", 
-        "genres": "Drama Action Crime Thriller", 
-        "overview": "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets."
-    }
-]
-
-df = pd.DataFrame(data)
-
-# Save the file. We use index=False to prevent extra columns that cause ParserErrors.
-df.to_csv('movies_metadata.csv', index=False)
-print("✅ movies_metadata.csv has been created successfully!")
+id,title,genres,overview
+862,Toy Story,Animation Comedy Family,Woody and Buzz Lightyear go on an adventure.
+19995,Avatar,Action Adventure Fantasy,A paraplegic Marine explores the moon Pandora.
+27205,Inception,Action Sci-Fi,A thief steals secrets through dream-sharing technology.
+157336,Interstellar,Adventure Drama Sci-Fi,Explorers travel through a wormhole to save humanity.
+155,The Dark Knight,Action Crime Drama,Batman fights the Joker in Gotham City.
