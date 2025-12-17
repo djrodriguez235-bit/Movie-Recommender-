@@ -5,10 +5,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # --- CONFIGURATION & API ---
-TMDB_API_KEY = "YOUR_TMDB_API_KEY" # Replace with your actual key
+"6aa80f34b5ad28468201d1ad776e221e" # Replace with your actual key
 
 def fetch_poster(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&language=en-US"
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={"6aa80f34b5ad28468201d1ad776e221e"}&language=en-US"
     try:
         data = requests.get(url).json()
         poster_path = data['poster_path']
