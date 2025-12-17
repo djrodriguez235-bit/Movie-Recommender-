@@ -1,0 +1,79 @@
+import streamlit as st
+import pandas as pd
+import requests
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# --- CONFIGURATION & API ---
+TMDB_API_KEY = "YOUR_TMDB_API_KEY" # Replace with your actual key
+
+def fetch_poster(movie_id):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&language=en-US"
+    try:
+        data = requests.get(url).json()
+        poster_path = data['poster_path']
+        return f"https://image.tmdb.org/t/p/w500/{poster_path}"
+    except:
+        return "https://via.placeholder.com/500x750?text=No+Poster+Found"
+
+# --- DATA LOADING ---
+@st.cache_data
+def load_data():
+    # For GitHub, you can use a small sample or a hosted CSV
+    # Ensure your CSV has: 'title', 'genres', 'overview', 'id'
+    df = pd.read_csv('movies_metadata.csv') 
+    df['combined_features'] = df['genres'].fillna('') + " " + df['overview'].fillna('')
+    return df
+
+# --- RECOMMENDATION ENGINE ---
+def recommend(user_input, df):
+    tfidf = TfidfVectorizer(stop_words='english')
+    
+    # Add user preferences as a temporary row to the dataframe
+    temp_df = pd.concat([df, pd.DataFrame({'combined_features': [user_input]})], ignore_index=True)
+    tfidf_matrix = tfidf.fit_transform(temp_df['combined_features'])
+    
+    # Compare the last row (user) against all others
+    sim_scores = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
+    
+    # Get top 5 indices
+    movie_indices = sim_scores.argsort()[0][-5:][::-1]
+    return df.iloc[movie_indices]
+
+# --- USER INTERFACE ---
+st.set_page_config(page_title="Culture-Match Movies", layout="wide")
+
+st.title("🎬 Multi-Dimensional Movie Recommender")
+st.write("Find movies based on your taste in books, music, and cinema.")
+
+with st.sidebar:
+    st.header("Your Taste Profile")
+    books = st.text_area("Favorite Books / Authors", placeholder="e.g. The Great Gatsby, Haruki Murakami")
+    music = st.text_area("Music / Artists", placeholder="e.g. Jazz, Daft Punk, Lo-fi")
+    movies = st.text_area("Movies you loved", placeholder="e.g. Inception, Grand Budapest Hotel")
+    
+    submit = st.button("Generate Recommendations")
+
+if submit:
+    df = load_data()
+    user_profile = f"{books} {music} {movies}"
+    
+    with st.spinner('Analyzing cultural signatures...'):
+        recommendations = recommend(user_profile, df)
+        
+    st.subheader("Top Picks For You")
+    cols = st.columns(5)
+    
+    for i, (index, row) in enumerate(recommendations.iterrows()):
+        with cols[i]:
+            poster = fetch_poster(row['id'])
+            st.image(poster)
+            st.markdown(f"**{row['title']}**")
+            
+            # Simulated Showtimes Feature
+            if st.button(f"Showtimes", key=f"btn_{i}"):
+                st.toast(f"Searching theaters for {row['title']}...")
+                st.info(f"Showing at: 'AMC Village' & 'Regal Cinema' near you.")
+
+else:
+    st.info("Fill out your profile on the left to get started!")
